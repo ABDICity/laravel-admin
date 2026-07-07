@@ -1,60 +1,68 @@
 {
-    "name": "encore/laravel-admin",
-    "description": "laravel admin",
-    "type": "library",
-    "keywords": ["laravel", "admin", "grid", "form"],
-    "homepage": "https://github.com/z-song/laravel-admin",
+    "name": "laravel/laravel",
+    "type": "project",
+    "description": "The base website project for Laravel Admin.",
+    "keywords": ["laravel", "framework"],
     "license": "MIT",
-    "authors": [
-        {
-            "name": "zsong",
-            "email": "zosong@126.com"
-        }
-    ],
     "require": {
-        "php": ">=7.0.0",
-        "symfony/dom-crawler": "~3.1|~4.0|~5.0",
-        "laravel/framework": ">=5.5",
-        "doctrine/dbal": "2.*|3.*"
+        "php": "^8.2|^8.3|^8.4",
+        "doctrine/dbal": "^3.0",
+        "encore/laravel-admin": "^1.8",
+        "laravel/framework": "^10.0|^11.0"
     },
     "require-dev": {
-        "laravel/laravel": ">=5.5",
-        "fzaninotto/faker": "~1.4",
-        "intervention/image": "~2.3",
-        "laravel/browser-kit-testing": "^6.0",
-        "spatie/phpunit-watcher": "^1.22.0"
+        "fakerphp/faker": "^1.9.1",
+        "laravel/pint": "^1.0",
+        "mockery/mockery": "^1.4.4",
+        "nunomaduro/collision": "^7.0|^8.0",
+        "phpunit/phpunit": "^10.0"
     },
     "autoload": {
         "psr-4": {
-            "Encore\\Admin\\": "src/"
-        },
-        "files": [
-            "src/helpers.php"
-        ]
+            "App\\": "app/",
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/"
+        }
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\Models\\": "tests/models",
-            "Tests\\Controllers\\": "tests/controllers"
-        },
-        "classmap": [
-            "tests/TestCase.php"
-        ]
+            "Tests\\": "tests/"
+        }
     },
     "scripts": {
-        "test": "./vendor/bin/phpunit"
-    },
-    "suggest": {
-        "intervention/image": "Required to handling and manipulation upload images (~2.3).",
-        "spatie/eloquent-sortable": "Required to built orderable gird."
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover --ansi"
+        ],
+        "post-update-cmd": [
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
+        ],
+        "post-root-package-install": [
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        ],
+        "post-create-project-cmd": [
+            "@php artisan key:generate --ansi"
+        ]
     },
     "extra": {
         "laravel": {
-            "providers": [
-                "Encore\\Admin\\AdminServiceProvider"
-            ],
-            "aliases": {
-                "Admin": "Encore\\Admin\\Facades\\Admin"
+            "dont-discover": []
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "php-http/discovery": true
+        },
+        "platform": {
+            "php": "8.2.0"
+        },
+        "policy": {
+            "advisories": {
+                "block": false
             }
         }
     }
